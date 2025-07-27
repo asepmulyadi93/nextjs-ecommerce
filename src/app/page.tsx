@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -104,14 +105,14 @@ export default function Home() {
               <h3 className="text-xl font-bold mb-4">Exclusive</h3>
               <h4 className="font-semibold mb-2">Subscribe</h4>
               <p className="text-gray-400 mb-4">Get 10% off your first order</p>
-              <div className="flex">
+              <div className="relative">
                 <input 
                   type="email" 
                   placeholder="Enter your email" 
-                  className="flex-1 px-3 py-2 bg-gray-800 text-white rounded-l-lg focus:outline-none"
+                  className="w-full px-3 py-2 pr-12 bg-transparent border border-white text-white rounded-lg focus:outline-none placeholder-gray-400"
                 />
-                <button className="px-4 py-2 bg-red-500 text-white rounded-r-lg hover:bg-red-600">
-                  →
+                <button className="absolute right-2 top-1/2 transform -translate-y-1/2 p-2 text-white hover:bg-white hover:text-black rounded transition-colors">
+                  <Icon icon="heroicons:paper-airplane" className="w-4 h-4" />
                 </button>
               </div>
             </div>
@@ -128,7 +129,7 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-bold mb-4">Account</h3>
               <ul className="space-y-2">
-                {["My Account", "Login / Register", "Cart", "Wishlist", "Shop"].map((item, index) => (
+                {["My Account", "Login / Register", "Cart", "Wishlist"].map((item, index) => (
                   <li key={index}>
                     <a href="#" className="text-gray-400 hover:text-white">{item}</a>
                   </li>
@@ -152,23 +153,55 @@ export default function Home() {
             <div>
               <h3 className="text-xl font-bold mb-4">Download App</h3>
               <p className="text-gray-400 mb-4">Save $3 with App New User Only</p>
-              <div className="w-20 h-20 bg-gray-700 rounded mb-4"></div>
-              <div className="space-y-2">
-                <div className="w-32 h-10 bg-gray-700 rounded"></div>
-                <div className="w-32 h-10 bg-gray-700 rounded"></div>
+              
+              {/* QR Code and App Store Badges */}
+              <div className="flex gap-4 mb-4 items-center">
+                {/* QR Code */}
+                <div className="w-20 h-20 bg-white rounded flex items-center justify-center p-1">
+                  <QRCodeSVG 
+                    value="https://exclusive.com/app" 
+                    size={64}
+                    level="M"
+                    fgColor="#000000"
+                    bgColor="#FFFFFF"
+                  />
+                </div>
+                
+                {/* App Store Badges */}
+                <div className="flex flex-col justify-center space-y-2">
+                  <Image 
+                    src="/images/google-play.png"
+                    alt="Get it on Google Play"
+                    width={128}
+                    height={48}
+                    className="h-10 w-auto"
+                  />
+                  <Image 
+                    src="/images/app-store.png"
+                    alt="Download on the App Store"
+                    width={128}
+                    height={48}
+                    className="h-10 w-auto"
+                  />
+                </div>
               </div>
-              <div className="flex gap-4 mt-4">
-                {["Facebook", "Twitter", "Instagram", "LinkedIn"].map((social, index) => (
-                  <a key={index} href="#" className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center hover:bg-gray-600">
-                    <span className="text-xs">{social[0]}</span>
-                  </a>
-                ))}
+              
+              {/* Social Media Icons */}
+              <div className="flex gap-4">
+                <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800">
+                  <Icon icon="ri:facebook-line" className="w-5 h-5 text-white" />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800">
+                  <Icon icon="ri:twitter-line" className="w-5 h-5 text-white" />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800">
+                  <Icon icon="ri:instagram-line" className="w-5 h-5 text-white" />
+                </a>
+                <a href="#" className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-gray-800">
+                  <Icon icon="ri:linkedin-line" className="w-5 h-5 text-white" />
+                </a>
               </div>
             </div>
-          </div>
-
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-            <p className="text-gray-400">© Copyright 2023. All Rights Reserved</p>
           </div>
         </div>
       </footer>
