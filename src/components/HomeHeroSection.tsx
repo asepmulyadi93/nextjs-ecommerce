@@ -100,7 +100,7 @@ export default function HomeHeroSection() {
 
         {/* Hero Banner */}
         <div className="w-full lg:w-3/4">
-          <div className="relative bg-gradient-to-r from-black to-gray-900 rounded-2xl overflow-hidden h-[480px] sm:h-[320px] lg:h-[400px]">
+          <div className="relative bg-gradient-to-r from-black to-gray-900 rounded-2xl overflow-hidden h-[480px] sm:h-[320px] lg:h-[460px]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
@@ -190,8 +190,8 @@ export default function HomeHeroSection() {
                 </div>
 
                 {/* Product Image for Desktop */}
-                <div className="absolute top-1/2 -translate-y-1/2 right-0 w-1/2 h-[85%] flex items-center justify-end">
-                  <div className="relative w-[90%] h-full mr-8">
+                <div className="absolute top-1/2 -translate-y-1/2 right-0 w-1/2 h-[95%] flex items-center justify-end">
+                  <div className="relative w-[95%] h-full mr-6">
                     <Image
                       src={slide.image}
                       alt={slide.title}
