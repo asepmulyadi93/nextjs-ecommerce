@@ -3,51 +3,8 @@
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
 import { useState, useEffect, useCallback } from 'react';
-
-const categories = [
-  { name: "Woman's Fashion", hasSubmenu: true },
-  { name: "Men's Fashion", hasSubmenu: true },
-  { name: "Electronics", hasSubmenu: false },
-  { name: "Home & Lifestyle", hasSubmenu: false },
-  { name: "Medicine", hasSubmenu: false },
-  { name: "Sports & Outdoor", hasSubmenu: false },
-  { name: "Baby's & Toys", hasSubmenu: false },
-  { name: "Groceries & Pets", hasSubmenu: false },
-  { name: "Health & Beauty", hasSubmenu: false },
-];
-
-const slides = [
-  {
-    id: 1,
-    title: "iPhone 14 Series",
-    discount: "Up to 10%",
-    image: "/images/hero-banner-1.png",
-  },
-  {
-    id: 2,
-    title: "Samsung S23 Ultra",
-    discount: "Up to 15%",
-    image: "/images/hero-banner-1.png", // You can replace with different images
-  },
-  {
-    id: 3,
-    title: "MacBook Pro",
-    discount: "Up to 20%",
-    image: "/images/hero-banner-1.png",
-  },
-  {
-    id: 4,
-    title: "iPad Pro",
-    discount: "Up to 12%",
-    image: "/images/hero-banner-1.png",
-  },
-  {
-    id: 5,
-    title: "AirPods Pro",
-    discount: "Up to 25%",
-    image: "/images/hero-banner-1.png",
-  },
-];
+import { categories } from '@/data/categories';
+import { heroSlides as slides } from '@/data/hero-slides';
 
 export default function HomeHeroSection() {
   const [activeSlide, setActiveSlide] = useState(0);

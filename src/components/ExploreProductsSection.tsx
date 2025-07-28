@@ -2,24 +2,17 @@
 
 import { Icon } from '@iconify/react';
 import Image from 'next/image';
-import { productCategories, type ProductCategory } from '@/data/product-categories';
-import { products, type Product } from '@/data/products';
+import { useState } from 'react';
 
-const CategoryCard = ({ name, icon, isActive }: { name: string; icon: string; isActive: boolean }) => (
-  <div
-    className={`flex flex-col items-center justify-center p-6 rounded-lg min-w-[140px] sm:min-w-0 w-full transition-all cursor-pointer
-      ${isActive 
-        ? 'bg-red-500 text-white border border-transparent' 
-        : 'bg-white hover:bg-gray-50 text-gray-800 border border-gray-200 hover:border-gray-300'}`}
-  >
-    <Icon icon={icon} className={`w-8 h-8 mb-3 ${isActive ? 'text-white' : 'text-gray-600'}`} />
-    <span className="text-sm font-medium text-center">{name}</span>
-  </div>
-);
+import { Product, products } from '@/data/products';
 
-const ProductCard = ({ product }: { product: Product }) => (
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard = ({ product }: ProductCardProps) => (
   <div className="bg-white rounded-lg group relative">
-    {/* Product Image */}
+    {/* Product Image Container */}
     <div className="relative h-[300px] bg-gray-100 rounded-t-lg overflow-hidden group-hover:bg-gray-50 transition-colors">
       <Image
         src={product.image}
@@ -28,6 +21,7 @@ const ProductCard = ({ product }: { product: Product }) => (
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         className="object-contain p-6"
       />
+      
       {/* Quick action buttons */}
       <div className="absolute top-4 right-4 flex flex-col gap-2">
         <button className="p-3 bg-white rounded-full shadow-md hover:bg-gray-50 transition-colors" aria-label="Add to wishlist">
@@ -89,55 +83,70 @@ const ProductCard = ({ product }: { product: Product }) => (
             />
           ))}
         </div>
-      )}</div>
-  </div>
-);
-
-const SectionTitle = ({ label, heading }: { label: string; heading: string }) => (
-  <div className="mb-8">
-    <div className="flex items-center gap-2 mb-2">
-      <div className="w-1 h-5 bg-red-500"></div>
-      <span className="text-red-500 font-medium">{label}</span>
-    </div>
-    <div className="flex items-center justify-between">
-      <h2 className="text-2xl font-semibold text-gray-900">{heading}</h2>
-      {heading === 'Best Selling Products' && (
-        <button className="text-gray-500 hover:text-gray-700">View All</button>
       )}
     </div>
   </div>
 );
 
-export default function CategoryAndProductsSection() {
+export default function ExploreProductsSection() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const productsPerPage = 8;
+  const totalPages = Math.ceil(products.length / productsPerPage);
+  
+  const currentProducts = products.slice(
+    currentPage * productsPerPage,
+    (currentPage + 1) * productsPerPage
+  );
+
+  const handlePreviousPage = () => {
+    setCurrentPage((prev) => Math.max(0, prev - 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(totalPages - 1, prev + 1));
+  };
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      {/* Categories Section */}
-      <section className="mb-16">
-        <SectionTitle label="Categories" heading="Browse By Category" />
-        <div className="-mx-4 sm:mx-0">
-          <div className="overflow-x-auto px-4 pb-4">
-            <div className="flex gap-4 min-w-max sm:min-w-0 sm:grid sm:grid-cols-6 sm:gap-6">
-              {productCategories.map((category: ProductCategory) => (
-                <CategoryCard
-                  key={category.id}
-                  name={category.name}
-                  icon={category.icon}
-                  isActive={category.isActive}
-                />
-              ))}
+    <section className="max-w-7xl mx-auto px-4 py-12">
+      <div>
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-1 h-5 bg-red-500"></div>
+              <span className="text-red-500 font-medium">Our Products</span>
             </div>
+            <h2 className="text-2xl font-bold text-gray-900">Explore Our Products</h2>
+          </div>
+          <div className="hidden sm:flex gap-2">
+            <button 
+              onClick={handlePreviousPage}
+              disabled={currentPage === 0}
+              className="p-3 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Previous products"
+            >
+              <Icon icon="mdi:arrow-left" className="w-5 h-5 text-black" />
+            </button>
+            <button 
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages - 1}
+              className="p-3 rounded-full border border-gray-300 hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              aria-label="Next products"
+            >
+              <Icon icon="mdi:arrow-right" className="w-5 h-5 text-black" />
+            </button>
           </div>
         </div>
-      </section>
-      {/* Products Section */}
-      <section>
-        <SectionTitle label="This Month" heading="Best Selling Products" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.slice(0, 4).map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-    </div>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {currentProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+      <div className="flex justify-center mt-12">
+        <button className="bg-red-500 text-white px-8 py-4 rounded font-medium hover:bg-red-600 transition-colors">
+          View All Products
+        </button>
+      </div>
+    </section>
   );
 }

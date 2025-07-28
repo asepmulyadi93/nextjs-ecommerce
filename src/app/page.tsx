@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import HomeHeroSection from "@/components/HomeHeroSection";
 import CategoryAndProductsSection from "@/components/CategoryAndProductsSection";
+import ExploreProductsSection from "@/components/ExploreProductsSection";
 
 export default function Home() {
   return (
@@ -9,8 +10,8 @@ export default function Home() {
       <Header />
       <main>
         <HomeHeroSection />
-        {/* <CategoryAndProductsSection /> */}
         <CategoryAndProductsSection />
+        <ExploreProductsSection />
       </main>
       <Footer />
     </div>
